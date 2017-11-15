@@ -2,6 +2,7 @@ package by.tr.epam.controller;
 
 import by.tr.epam.controller.commands.Command;
 import by.tr.epam.controller.commands.CommandDirector;
+import by.tr.epam.domain.TagAttributes;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +25,8 @@ public class FrontController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
         String commandName = req.getParameter(TagAttributes.command.name());
-        System.out.println(commandName);
         Command command = commandDirector.getCommand(commandName);
         command.execute(req, resp);
     }
