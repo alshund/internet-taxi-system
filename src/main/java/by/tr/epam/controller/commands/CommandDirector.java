@@ -1,8 +1,8 @@
 package by.tr.epam.controller.commands;
 
 import by.tr.epam.controller.TagAttributes;
-import by.tr.epam.controller.commands.impl.GoToAuthorization;
-import by.tr.epam.controller.commands.impl.GoToRegistration;
+import by.tr.epam.controller.commands.impl.RiderSignIn;
+import by.tr.epam.controller.commands.impl.DriverSignIn;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ public class CommandDirector {
     private Map<String, Command> commandMap = new HashMap<>();
 
     public CommandDirector() {
-        commandMap.put(TagAttributes.goToRegistrationPage.name(), new GoToRegistration());
-        commandMap.put(TagAttributes.goToAuthorizationPage.name(), new GoToAuthorization());
+        commandMap.put(TagAttributes.driverSignIn.name(), new DriverSignIn());
+        commandMap.put(TagAttributes.riderSignIn.name(), new RiderSignIn());
     }
 
     public Command getCommand(String commandName) {

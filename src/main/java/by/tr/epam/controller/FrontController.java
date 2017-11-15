@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ClientController extends HttpServlet {
+public class FrontController extends HttpServlet {
     private CommandDirector commandDirector = new CommandDirector();
 
     @Override

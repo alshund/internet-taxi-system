@@ -6,9 +6,49 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
+    <servlet-name>DriverSignIn</servlet-name>
+    <display-name>DriverSignIn</display-name>
+    <jsp-file>/jspPages/DriverSignIn.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DriverSignIn</servlet-name>
+    <url-pattern>/DriverSignIn</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>DriverSignUp</servlet-name>
+    <display-name>DriverSignUp</display-name>
+    <jsp-file>/jspPages/DriverSignUp.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DriverSignUp</servlet-name>
+    <url-pattern>/DriverSignUp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RiderSignIn</servlet-name>
+    <display-name>RiderSignIn</display-name>
+    <jsp-file>/jspPages/RiderSignIn.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RiderSignIn</servlet-name>
+    <url-pattern>/RiderSignIn</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>RiderSignUp</servlet-name>
+    <display-name>RiderSignUp</display-name>
+    <jsp-file>/jspPages/RiderSignUp.jsp</jsp-file>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RiderSignUp</servlet-name>
+    <url-pattern>/RiderSignUp</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>ClientController</servlet-name>
     <display-name>ClientController</display-name>
-    <servlet-class>by.tr.epam.controller.ClientController</servlet-class>
+    <servlet-class>by.tr.epam.controller.FrontController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ClientController</servlet-name>
