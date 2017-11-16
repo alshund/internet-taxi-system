@@ -8,27 +8,27 @@
     <title>RiderRegistration</title>
 </head>
 <body>
-<form>
+<form action="FrontController" method="get">
     <input type="hidden" name="command", value="riderSignUp" />
     <div>
         <label for="firstName">First name</label>
-        <input id="firstName" placeholder="First name" />
+        <input id="firstName" name="firstName" placeholder="First name" />
     </div>
     <div>
         <label for="lastName">Last name</label>
-        <input id="lastName" placeholder="Last name" />
+        <input id="lastName" name="lastName" placeholder="Last name" />
     </div>
     <div>
         <label for="phoneNumber">Phone number</label>
-        <input id="phoneNumber" placeholder="Phone number" />
+        <input id="phoneNumber" name="phoneNumber" placeholder="Phone number" />
     </div>
     <div>
         <label for="email">Email</label>
-        <input id="email" placeholder="Email" />
+        <input id="email" name="email" placeholder="Email" />
     </div>
     <div>
         <label for="pass">Password</label>
-        <input type="password" id="pass" placeholder="Password" />
+        <input type="password" name="password" id="pass" placeholder="Password" />
     </div>
     <div>
         <input type="submit" value="SIGN UP">

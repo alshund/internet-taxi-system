@@ -12,11 +12,11 @@
         <input type="hidden" name="command" value="driverSignIn" />
         <div>
             <label for="login">Email</label>
-            <input id="login" placeholder="Email" />
+            <input id="login" name="login" placeholder="Email" />
         </div>
         <div>
             <label for="pass">Password</label>
-            <input type="password" id="pass" placeholder="Password" />
+            <input type="password" id="pass" name="password" placeholder="Password" />
         </div>
         <div><input type="submit" value="SIGN IN" /></div>
     </form>

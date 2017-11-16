@@ -5,7 +5,7 @@ import by.tr.epam.dao.impl.SQLRiderDAO;
 public class DAOFactory {
     private static final DAOFactory instance = new DAOFactory();
 
-    public final RiderDAO riderDAO = new SQLRiderDAO();
+    private final RiderDAO riderDAO = new SQLRiderDAO();
 
     private DAOFactory() {}
 

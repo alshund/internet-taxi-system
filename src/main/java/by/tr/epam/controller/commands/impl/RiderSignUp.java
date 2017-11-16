@@ -12,19 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 public class RiderSignUp implements Command {
-    private RiderService riderService;
+    private RiderService service;
 
     public RiderSignUp() {
 
         ServiceFactory instance = ServiceFactory.getInstance();
-        riderService = instance.getRiderService();
+        service = instance.getRiderService();
     }
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
         Rider rider = createRider(request);
-        riderService.signUp(rider);
+        if (service.signUp(rider)) {
+            successfulSignUp(response);
+        } else {
+            failedSignUp(response);
+        }
     }
 
     private Rider createRider(HttpServletRequest request) {
@@ -34,5 +38,15 @@ public class RiderSignUp implements Command {
                          request.getParameter(TagAttributes.phoneNumber.name()),
                          request.getParameter(TagAttributes.email.name()),
                          request.getParameter(TagAttributes.password.name()));
+    }
+
+    private void successfulSignUp(HttpServletResponse response) throws IOException {
+
+        response.sendRedirect( "/success");
+    }
+
+    private void failedSignUp(HttpServletResponse response) throws IOException {
+
+        response.sendRedirect("/RiderSignIn");
     }
 }
