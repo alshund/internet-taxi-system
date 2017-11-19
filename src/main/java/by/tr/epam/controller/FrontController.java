@@ -12,27 +12,21 @@ import java.io.IOException;
 
 public class FrontController extends HttpServlet {
     private CommandDirector commandDirector = new CommandDirector();
-
-    @Override
-    public void init() throws ServletException {
-        super.init();
-    }
-
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.service(req, resp);
-    }
+    private Command command;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String commandName = req.getParameter(TagAttributes.command.name());
-        Command command = commandDirector.getCommand(commandName);
+        command = commandDirector.getCommand(commandName);
         command.execute(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+
+        String commandName = req.getParameter(TagAttributes.command.name());
+        command = commandDirector.getCommand(commandName);
+        command.execute(req, resp);
     }
 }

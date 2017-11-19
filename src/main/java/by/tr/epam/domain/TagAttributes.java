@@ -3,14 +3,17 @@ package by.tr.epam.domain;
 public enum TagAttributes {
     command,
 
-    driverSignIn,
-    driverSignUp,
-    riderSignIn,
-    riderSignUp,
+    userSignIn,
+    userSignUp,
+    role,
+
+    id,
+    email,
+    password,
+    passwordHash,
+    salt,
 
     firstName,
     lastName,
-    phoneNumber,
-    email,
-    password
+    phoneNumber
 }

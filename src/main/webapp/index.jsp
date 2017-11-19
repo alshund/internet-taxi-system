@@ -2,20 +2,22 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
 </head>
-<body>
+    <form action="FrontController" method="get">
+        <input type="hidden" name="command" value="signIn" />
+        <div>
+            <label for="login">Email</label>
+            <input id="login" name="login" placeholder="Email" />
+        </div>
+        <div>
+            <label for="pass">Password</label>
+            <input type="password" id="pass" name="password" placeholder="Password" />
+        </div>
+        <input type="submit" value="SIGN IN" />
+    </form>
     <div>
-        <div>
-            <a href="DriverSignIn">
-                DRIVER SIGN IN
-            </a>
-        </div>
-        <div>
-            <a href="RiderSignIn">
-                RIDER SIGN IN
-            </a>
-        </div>
+        Don't have an account?
+        <a href="RiderSignUp">Sign up</a>
+        <a href="">Are you a driver?</a>
     </div>
-</body>
 </html>

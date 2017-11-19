@@ -8,20 +8,9 @@
     <title>RiderRegistration</title>
 </head>
 <body>
-<form action="FrontController" method="get">
-    <input type="hidden" name="command", value="riderSignUp" />
-    <div>
-        <label for="firstName">First name</label>
-        <input id="firstName" name="firstName" placeholder="First name" />
-    </div>
-    <div>
-        <label for="lastName">Last name</label>
-        <input id="lastName" name="lastName" placeholder="Last name" />
-    </div>
-    <div>
-        <label for="phoneNumber">Phone number</label>
-        <input id="phoneNumber" name="phoneNumber" placeholder="Phone number" />
-    </div>
+<form action="FrontController" method="post">
+    <input type="hidden" name="command" value="userSignUp" />
+    <input type="hidden" name="role" value="rider" />
     <div>
         <label for="email">Email</label>
         <input id="email" name="email" placeholder="Email" />
