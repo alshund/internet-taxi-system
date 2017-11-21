@@ -1,5 +1,6 @@
 package by.tr.epam.controller.commands.impl;
 
+import by.tr.epam.controller.PagesBundleKeys;
 import by.tr.epam.controller.commands.Command;
 import by.tr.epam.domain.AuthenticationData;
 import by.tr.epam.domain.TagAttributes;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ResourceBundle;
 
 public class UserSignUp implements Command {
     private RegistrationService registrationService;
@@ -24,12 +26,13 @@ public class UserSignUp implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
+        ResourceBundle bundle = ResourceBundle.getBundle(PagesBundleKeys.BUNDLE_NAME);
         AuthenticationData authenticationData = formAuthenticationData(request);
-        String id = registrationService.signUp(authenticationData);
-        if (id != null) {
-            successfulSignUp(id, request, response);
+        String role = registrationService.signUp(authenticationData);
+        if (role != null) {
+            successfulSignUp(role, request, response);
         } else {
-            failedSignUp(request, response);
+            failedSignUp(bundle, response);
         }
     }
 
@@ -40,14 +43,15 @@ public class UserSignUp implements Command {
                                       request.getParameter(TagAttributes.role.name()));
     }
 
-    private void successfulSignUp(String id, HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void successfulSignUp(String role, HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         HttpSession session = request.getSession();
-        response.sendRedirect( "driver");
+        response.sendRedirect( role);
     }
 
-    private void failedSignUp(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    private void failedSignUp(ResourceBundle bundle, HttpServletResponse response) throws IOException {
 
-        response.sendRedirect("/RiderSignIn");
+        System.out.println("FA");
+        response.sendRedirect(bundle.getString(PagesBundleKeys.INDEX_PAGE));
     }
 }

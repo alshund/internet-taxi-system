@@ -24,7 +24,7 @@
     <servlet-name>RiderSignUp</servlet-name>
     <url-pattern>/RiderSignUp</url-pattern>
   </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>RiderProfile</servlet-name>
     <display-name>RiderProfile</display-name>

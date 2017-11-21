@@ -15,11 +15,11 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public String signUp(AuthenticationData data) {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(BundleKeys.BUNDLE_NAME);
+        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
             openConnection(bundle);
-            insertUser(data, bundle.getString(BundleKeys.INSERT_USER));
-            return formMatcherId(data.getEmail(), bundle);
+            insertUser(data, bundle.getString(DBBundleKeys.INSERT_USER));
+            return formMatcherRole(data.getEmail(), bundle);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -42,7 +42,7 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public String getMatcherId(String email) {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(BundleKeys.BUNDLE_NAME);
+        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
             openConnection(bundle);
             return formMatcherId(email, bundle);
@@ -68,7 +68,7 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public String getMatcherRole(String email) {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(BundleKeys.BUNDLE_NAME);
+        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
             openConnection(bundle);
             return formMatcherRole(email, bundle);
@@ -94,7 +94,7 @@ public class SQLUserDAO implements UserDAO {
     @Override
     public HashData getMatcherHashData(String email) {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(BundleKeys.BUNDLE_NAME);
+        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
             openConnection(bundle);
             return formMatcherHashData(email, bundle);
@@ -119,10 +119,10 @@ public class SQLUserDAO implements UserDAO {
 
     private void openConnection(ResourceBundle bundle) throws SQLException, ClassNotFoundException {
 
-        Class.forName(bundle.getString(BundleKeys.FOR_NAME));
-        connection = DriverManager.getConnection(bundle.getString(BundleKeys.RIDER_URL),
-                                                 bundle.getString(BundleKeys.USER),
-                                                 bundle.getString(BundleKeys.PASS));
+        Class.forName(bundle.getString(DBBundleKeys.FOR_NAME));
+        connection = DriverManager.getConnection(bundle.getString(DBBundleKeys.RIDER_URL),
+                                                 bundle.getString(DBBundleKeys.USER),
+                                                 bundle.getString(DBBundleKeys.PASS));
     }
 
     private void closeAll() throws SQLException {
@@ -143,7 +143,7 @@ public class SQLUserDAO implements UserDAO {
 
     private String formMatcherId(String email, ResourceBundle bundle) throws SQLException {
 
-        ResultSet resultSet = getMatcherParameter(email, bundle.getString(BundleKeys.SELECT_MATCHER_ID));
+        ResultSet resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ID));
         if (resultSet.next()) {
             return resultSet.getString(TagAttributes.id.name());
         }
@@ -152,7 +152,7 @@ public class SQLUserDAO implements UserDAO {
 
     private String formMatcherRole(String email, ResourceBundle bundle) throws SQLException {
 
-        ResultSet resultSet = getMatcherParameter(email, bundle.getString(BundleKeys.SELECT_MATCHER_ROLE));
+        ResultSet resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ROLE));
         if (resultSet.next()) {
             return resultSet.getString(TagAttributes.role.name());
         }
@@ -161,7 +161,7 @@ public class SQLUserDAO implements UserDAO {
 
     private HashData formMatcherHashData(String email, ResourceBundle bundle) throws SQLException {
 
-        ResultSet resultSet = getMatcherParameter(email, bundle.getString(BundleKeys.SELECT_MATCHER_HASH_DATA));
+        ResultSet resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_HASH_DATA));
         if (resultSet.next()    ) {
             return new HashData(resultSet.getString(TagAttributes.passwordHash.name()),
                                 resultSet.getString(TagAttributes.salt.name()));

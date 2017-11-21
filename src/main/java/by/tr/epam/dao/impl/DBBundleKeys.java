@@ -1,6 +1,6 @@
 package by.tr.epam.dao.impl;
 
-public class BundleKeys {
+public class DBBundleKeys {
     static final String BUNDLE_NAME = "database.database";
     static final String FOR_NAME = "database.forName";
     static final String USER = "database.user";
