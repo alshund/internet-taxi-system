@@ -7,7 +7,6 @@
 
   <servlet>
     <servlet-name>DriverSignUp</servlet-name>
-    <display-name>DriverSignUp</display-name>
     <jsp-file>/WEB-INF/jspPages/DriverSignUp.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
@@ -17,7 +16,6 @@
 
   <servlet>
     <servlet-name>RiderSignUp</servlet-name>
-    <display-name>RiderSignUp</display-name>
     <jsp-file>/WEB-INF/jspPages/RiderSignUp.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
@@ -27,7 +25,6 @@
 
   <servlet>
     <servlet-name>RiderProfile</servlet-name>
-    <display-name>RiderProfile</display-name>
     <jsp-file>/WEB-INF/jspPages/RiderProfile.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
@@ -37,8 +34,7 @@
 
   <servlet>
     <servlet-name>FrontController</servlet-name>
-    <display-name>FrontController</display-name>
-    <servlet-class>by.tr.epam.controller.FrontController</servlet-class>
+    <servlet-class>by.tr.web.controller.FrontController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>FrontController</servlet-name>
