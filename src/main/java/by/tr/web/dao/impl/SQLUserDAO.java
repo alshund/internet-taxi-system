@@ -11,14 +11,14 @@ import java.util.ResourceBundle;
 public class SQLUserDAO implements UserDAO {
     private Connection connection;
     private PreparedStatement statement;
+    private ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
 
     @Override
     public String signUp(AuthenticationData data) {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection(bundle);
-            insertUser(data, bundle.getString(DBBundleKeys.INSERT_USER));
+            openConnection();
+            insertUser(data);
             return formMatcherRole(data.getEmail(), bundle);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class SQLUserDAO implements UserDAO {
 
         ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection(bundle);
+            openConnection();
             return formMatcherId(email, bundle);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,7 +62,7 @@ public class SQLUserDAO implements UserDAO {
                 e.printStackTrace();
             }
         }
-        return null; //TODO throw Exception
+        return null; //TODO throw exception
     }
 
     @Override
@@ -70,7 +70,7 @@ public class SQLUserDAO implements UserDAO {
 
         ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection(bundle);
+            openConnection();
             return formMatcherRole(email, bundle);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -96,7 +96,7 @@ public class SQLUserDAO implements UserDAO {
 
         ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection(bundle);
+            openConnection();
             return formMatcherHashData(email, bundle);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -114,13 +114,13 @@ public class SQLUserDAO implements UserDAO {
                 e.printStackTrace();
             }
         }
-        return null; //TODO throw Exception
+        return null; //TODO throw exception
     }
 
-    private void openConnection(ResourceBundle bundle) throws SQLException, ClassNotFoundException {
+    private void openConnection() throws SQLException, ClassNotFoundException {
 
-        Class.forName(bundle.getString(DBBundleKeys.FOR_NAME));
-        connection = DriverManager.getConnection(bundle.getString(DBBundleKeys.RIDER_URL),
+        Class.forName(bundle.getString(DBBundleKeys.DRIVER_NAME));
+        connection = DriverManager.getConnection(bundle.getString(DBBundleKeys.URL),
                                                  bundle.getString(DBBundleKeys.USER),
                                                  bundle.getString(DBBundleKeys.PASS));
     }
@@ -131,8 +131,9 @@ public class SQLUserDAO implements UserDAO {
         connection.close();
     }
 
-    private void insertUser(AuthenticationData data, String query) throws SQLException {
+    private void insertUser(AuthenticationData data) throws SQLException {
 
+        String query = bundle.getString(DBBundleKeys.INSERT_USER);
         statement = connection.prepareStatement(query);
         statement.setString(1, data.getEmail());
         statement.setString(2, data.getHashData().getPasswordHash());
