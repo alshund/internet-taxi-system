@@ -6,6 +6,8 @@ import by.tr.web.domain.AuthenticationData;
 import by.tr.web.domain.TagAttributes;
 import by.tr.web.service.RegistrationService;
 import by.tr.web.service.ServiceFactory;
+import by.tr.web.service.exception.AuthenticationException;
+import by.tr.web.service.exception.UserServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,6 +19,8 @@ import java.util.ResourceBundle;
 public class UserSignUp implements Command {
     private RegistrationService registrationService;
 
+    private ResourceBundle bundle = ResourceBundle.getBundle(PagesBundleKeys.BUNDLE_NAME);
+
     public UserSignUp() {
 
         ServiceFactory instance = ServiceFactory.getInstance();
@@ -26,14 +30,16 @@ public class UserSignUp implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(PagesBundleKeys.BUNDLE_NAME);
-        AuthenticationData authenticationData = formAuthenticationData(request);
-        String role = registrationService.signUp(authenticationData);
-        if (role != null) {
+        try {
+            AuthenticationData authenticationData = formAuthenticationData(request);
+            String role = registrationService.signUp(authenticationData);
             successfulSignUp(role, request, response);
-        } else {
-            failedSignUp(bundle, response);
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        } catch (UserServiceException e) {
+            e.printStackTrace();
         }
+
     }
 
     private AuthenticationData formAuthenticationData(HttpServletRequest request) {

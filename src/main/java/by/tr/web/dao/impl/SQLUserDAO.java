@@ -1,173 +1,168 @@
 package by.tr.web.dao.impl;
 
 import by.tr.web.dao.UserDAO;
+import by.tr.web.dao.exception.ConnectionPoolException;
+import by.tr.web.dao.exception.NoSuchUserException;
+import by.tr.web.dao.exception.SQLUserDAOException;
 import by.tr.web.domain.AuthenticationData;
 import by.tr.web.domain.HashData;
 import by.tr.web.domain.TagAttributes;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ResourceBundle;
 
 public class SQLUserDAO implements UserDAO {
+    private ConnectionPool instance = ConnectionPool.getInstance();
     private Connection connection;
     private PreparedStatement statement;
+    private ResultSet resultSet;
+
     private ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
 
     @Override
-    public String signUp(AuthenticationData data) {
+    public String signUp(AuthenticationData data) throws SQLUserDAOException, NoSuchUserException {
 
         try {
-            openConnection();
+            connection = instance.getConnection();
+            String query = bundle.getString(DBBundleKeys.INSERT_USER);
+            statement = connection.prepareStatement(query);
             insertUser(data);
-            return formMatcherRole(data.getEmail(), bundle);
+            return formMatcherRole(data.getEmail());
+        } catch (ConnectionPoolException e) {
+
+            throw new SQLUserDAOException("Connection pool can not return connection", e);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+            throw new SQLUserDAOException("Unable to prepare insert statement", e);
         } finally {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            close();
         }
-        return null;
     }
 
     @Override
-    public String getMatcherId(String email) {
+    public boolean isUserSignUp(String email) throws SQLUserDAOException {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection();
-            return formMatcherId(email, bundle);
+            connection = instance.getConnection();
+            String query = bundle.getString(DBBundleKeys.SELECT_MATCHER_ID);
+            return isParameterMatcher(email, query);
+        } catch (ConnectionPoolException e) {
+
+            throw new SQLUserDAOException("Connection pool can not return connection", e);
         } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+            throw new SQLUserDAOException("Unable to prepare insert statement", e);
         } finally {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            close();
         }
-        return null; //TODO throw exception
     }
 
     @Override
-    public String getMatcherRole(String email) {
+    public String getMatcherId(String email) throws SQLUserDAOException, NoSuchUserException {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection();
-            return formMatcherRole(email, bundle);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            connection = instance.getConnection();
+            return formMatcherId(email);
+        } catch (ConnectionPoolException e) {
+            throw new SQLUserDAOException("Connection pool can not return connection", e);
         } finally {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            close();
         }
-        return null;
     }
 
     @Override
-    public HashData getMatcherHashData(String email) {
+    public String getMatcherRole(String email) throws SQLUserDAOException, NoSuchUserException {
 
-        ResourceBundle bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
+        bundle = ResourceBundle.getBundle(DBBundleKeys.BUNDLE_NAME);
         try {
-            openConnection();
-            return formMatcherHashData(email, bundle);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            connection = instance.getConnection();
+            return formMatcherRole(email);
+        } catch (ConnectionPoolException e) {
+            throw new SQLUserDAOException("Connection pool can not return connection", e);
         } finally {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            close();
+        }
+    }
+
+    @Override
+    public HashData getMatcherHashData(String email) throws SQLUserDAOException, NoSuchUserException {
+
+        try {
+            connection = instance.getConnection();
+            return formMatcherHashData(email);
+        } catch (ConnectionPoolException e) {
+            throw new SQLUserDAOException("Connection pool can not return connection", e);
+        } finally {
+            close();
+        }
+    }
+
+    private void close() throws SQLUserDAOException {
+
+        try {
+            instance.closeConnection(connection, statement, resultSet);
+        } catch (ConnectionPoolException e) {
+            throw new SQLUserDAOException("Connection pool can not close connection/statement/resultSet", e);
+        }
+    }
+
+    private int insertUser(AuthenticationData data) throws SQLUserDAOException {
+
+        try {
+            statement.setString(1, data.getEmail());
+            statement.setString(2, data.getHashData().getPasswordHash());
+            statement.setString(3, data.getHashData().getSalt());
+            statement.setString(4, data.getRole());
+            return statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new SQLUserDAOException("Unable to insert user into DB");
+        }
+    }
+
+    private String formMatcherId(String email) throws NoSuchUserException, SQLUserDAOException {
+
+        try {
+            resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ID));
+            if (resultSet.next()) {
+                return resultSet.getString(TagAttributes.id.name());
+            } else {
+                throw new NoSuchUserException("This email doesn't registered");
             }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+        } catch (SQLException e) {
+            throw new SQLUserDAOException("Unable to form matcher id");
+        }
+    }
+
+    private String formMatcherRole(String email) throws SQLUserDAOException, NoSuchUserException {
+
+        try {
+            resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ROLE));
+            if (resultSet.next()) {
+                return resultSet.getString(TagAttributes.role.name());
+            } else {
+                throw new NoSuchUserException("This email doesn't registered");
             }
+        } catch (SQLException e) {
+            throw new SQLUserDAOException("Unable to form matcher role");
         }
-        return null; //TODO throw exception
     }
 
-    private void openConnection() throws SQLException, ClassNotFoundException {
+    private HashData formMatcherHashData(String email) throws NoSuchUserException, SQLUserDAOException {
 
-        Class.forName(bundle.getString(DBBundleKeys.DRIVER_NAME));
-        connection = DriverManager.getConnection(bundle.getString(DBBundleKeys.URL),
-                                                 bundle.getString(DBBundleKeys.USER),
-                                                 bundle.getString(DBBundleKeys.PASS));
-    }
-
-    private void closeAll() throws SQLException {
-
-        statement.close();
-        connection.close();
-    }
-
-    private void insertUser(AuthenticationData data) throws SQLException {
-
-        String query = bundle.getString(DBBundleKeys.INSERT_USER);
-        statement = connection.prepareStatement(query);
-        statement.setString(1, data.getEmail());
-        statement.setString(2, data.getHashData().getPasswordHash());
-        statement.setString(3, data.getHashData().getSalt());
-        statement.setString(4, data.getRole());
-        statement.executeUpdate();
-    }
-
-    private String formMatcherId(String email, ResourceBundle bundle) throws SQLException {
-
-        ResultSet resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ID));
-        if (resultSet.next()) {
-            return resultSet.getString(TagAttributes.id.name());
+        try {
+            resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_HASH_DATA));
+            if (resultSet.next()) {
+                return new HashData(resultSet.getString(TagAttributes.passwordHash.name()),
+                                    resultSet.getString(TagAttributes.salt.name()));
+            } else {
+                throw new NoSuchUserException("This email doesn't registered");
+            }
+        } catch (SQLException e) {
+            throw new SQLUserDAOException("Unable to form matcher hash data");
         }
-        return null;
-    }
-
-    private String formMatcherRole(String email, ResourceBundle bundle) throws SQLException {
-
-        ResultSet resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ROLE));
-        if (resultSet.next()) {
-            return resultSet.getString(TagAttributes.role.name());
-        }
-        return null;
-    }
-
-    private HashData formMatcherHashData(String email, ResourceBundle bundle) throws SQLException {
-
-        ResultSet resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_HASH_DATA));
-        if (resultSet.next()) {
-            return new HashData(resultSet.getString(TagAttributes.passwordHash.name()),
-                                resultSet.getString(TagAttributes.salt.name()));
-        }
-        return null;
     }
 
     private ResultSet getMatcherParameter(String authenticationParameter, String query) throws SQLException {
@@ -177,4 +172,10 @@ public class SQLUserDAO implements UserDAO {
         return statement.executeQuery();
     }
 
+    private boolean isParameterMatcher(String authenticationParameter, String query) throws SQLException {
+
+        statement = connection.prepareStatement(query);
+        statement.setString(1, authenticationParameter);
+        return statement.executeQuery().next();
+    }
 }

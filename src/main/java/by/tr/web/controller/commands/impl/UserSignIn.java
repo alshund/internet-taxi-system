@@ -5,6 +5,8 @@ import by.tr.web.domain.AuthenticationData;
 import by.tr.web.domain.TagAttributes;
 import by.tr.web.service.AuthorizationService;
 import by.tr.web.service.ServiceFactory;
+import by.tr.web.service.exception.AuthenticationException;
+import by.tr.web.service.exception.UserServiceException;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,12 +25,13 @@ public class UserSignIn implements Command {
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 
-        AuthenticationData authenticationData = formAuthenticationData(request);
-        String role = authorizationService.signIn(authenticationData);
-        if (role != null) {
-
-        } else {
-
+        try {
+            AuthenticationData authenticationData = formAuthenticationData(request);
+            String role = authorizationService.signIn(authenticationData);
+        } catch (AuthenticationException e) {
+            e.printStackTrace();
+        } catch (UserServiceException e) {
+            e.printStackTrace();
         }
     }
 

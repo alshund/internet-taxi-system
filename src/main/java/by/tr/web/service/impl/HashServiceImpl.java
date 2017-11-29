@@ -19,7 +19,7 @@ public class HashServiceImpl implements HashService {
 
         HashData hashData = new HashData();
         hashData.setSalt(generateSalt(authenticationData.getPassword().length()));
-        hashData.setPasswordHash(hashData.getSalt());
+        hashData.setPasswordHash(createPasswordHash(authenticationData.getPassword(), hashData.getSalt()));
         return hashData;
     }
 
