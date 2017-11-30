@@ -5,7 +5,7 @@
 </head>
 <body>
 <form action="FrontController" method="get">
-    <input type="hidden" name="command" value="userSignIn" />
+    <input type="hidden" name="command" value="user_sign_in" />
     <div>
         <label for="email">Email</label>
         <input id="email" name="email" placeholder="Email" />
@@ -19,7 +19,7 @@
 <div>
     Don't have an account?
     <a href="RiderSignUp">Sign up</a>
-    <a href="">Are you a driver?</a>
+    <a href="DriverApplication">Are you a driver?</a>
 </div>
 </body>
 </html>

@@ -5,11 +5,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RiderRegistration</title>
+    <title>Rider Registration</title>
 </head>
 <body>
 <form action="FrontController" method="post">
-    <input type="hidden" name="command" value="userSignUp" />
+    <input type="hidden" name="command" value="user_sign_up" />
     <input type="hidden" name="role" value="rider" />
     <div>
         <label for="email">Email</label>

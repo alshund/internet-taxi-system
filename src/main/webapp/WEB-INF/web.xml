@@ -6,12 +6,12 @@
   <display-name>Archetype Created Web Application</display-name>
 
   <servlet>
-    <servlet-name>DriverSignUp</servlet-name>
-    <jsp-file>/WEB-INF/jspPages/DriverSignUp.jsp</jsp-file>
+    <servlet-name>DriverApplication</servlet-name>
+    <jsp-file>/WEB-INF/jspPages/DriverApplication.jsp</jsp-file>
   </servlet>
   <servlet-mapping>
-    <servlet-name>DriverSignUp</servlet-name>
-    <url-pattern>/DriverSignUp</url-pattern>
+    <servlet-name>DriverApplication</servlet-name>
+    <url-pattern>/DriverApplication</url-pattern>
   </servlet-mapping>
 
   <servlet>
@@ -33,6 +33,15 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>ApplicationController</servlet-name>
+    <servlet-class>by.tr.web.controller.ApplicationController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ApplicationController</servlet-name>
+    <url-pattern>/ApplicationController</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
     <servlet-name>FrontController</servlet-name>
     <servlet-class>by.tr.web.controller.FrontController</servlet-class>
   </servlet>
@@ -40,6 +49,12 @@
     <servlet-name>FrontController</servlet-name>
     <url-pattern>/FrontController</url-pattern>
   </servlet-mapping>
+
+  <listener>
+    <listener-class>
+      org.apache.commons.fileupload.servlet.FileCleanerCleanup
+    </listener-class>
+  </listener>
 
   <session-config>
     <session-timeout>30</session-timeout>

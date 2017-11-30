@@ -7,4 +7,5 @@ import by.tr.web.service.exception.UserServiceException;
 public interface RegistrationService {
 
     String signUp(AuthenticationData authenticationData) throws AuthenticationException, UserServiceException;
+    void sendDriverApplication();
 }

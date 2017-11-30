@@ -10,7 +10,7 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Rider Profile</title>
 </head>
 <body>
 

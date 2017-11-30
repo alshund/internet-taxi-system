@@ -44,9 +44,9 @@ public class UserSignUp implements Command {
 
     private AuthenticationData formAuthenticationData(HttpServletRequest request) {
 
-        return new AuthenticationData(request.getParameter(TagAttributes.email.name()),
-                                      request.getParameter(TagAttributes.password.name()),
-                                      request.getParameter(TagAttributes.role.name()));
+        return new AuthenticationData(request.getParameter(TagAttributes.EMAIL.name().toLowerCase()),
+                                      request.getParameter(TagAttributes.PASSWORD.name().toLowerCase()),
+                                      request.getParameter(TagAttributes.ROLE.name().toLowerCase()));
     }
 
     private void successfulSignUp(String role, HttpServletRequest request, HttpServletResponse response) throws IOException {

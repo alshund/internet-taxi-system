@@ -1,19 +1,26 @@
 package by.tr.web.domain;
 
 public enum TagAttributes {
-    command,
+    COMMAND,
 
-    userSignIn,
-    userSignUp,
-    role,
+    USER_SIGN_IN,
+    USER_SIGN_UP,
+    SEND_DRIVER_APPLICATION,
+    ROLE,
 
-    id,
-    email,
-    password,
-    passwordHash,
-    salt,
+    ADMIN, RIDER, DRIVER,
 
-    firstName,
-    lastName,
-    phoneNumber
+    ID,
+    EMAIL,
+    PASSWORD,
+    PASSWORD_HASH,
+    SALT,
+
+    FIRST_NAME,
+    LAST_NAME,
+    PATRONYMIC,
+    PHONE_NUMBER,
+    DRIVER_LICENSE,
+    PASSPORT
+
 }

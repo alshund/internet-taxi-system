@@ -12,5 +12,6 @@ public class DBBundleKeys {
     static final String SELECT_MATCHER_ID = "database.selectMatcherId";
     static final String SELECT_MATCHER_HASH_DATA = "database.selectMatcherHashData";
     static final String SELECT_MATCHER_ROLE = "database.selectMatcherRole";
-    static final String LAST_INSERT_ID = "database.lastInsertId";
+
+    private DBBundleKeys() {}
 }

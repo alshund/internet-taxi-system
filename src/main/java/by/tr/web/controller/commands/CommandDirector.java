@@ -1,5 +1,6 @@
 package by.tr.web.controller.commands;
 
+import by.tr.web.controller.commands.impl.SendDriverApplication;
 import by.tr.web.controller.commands.impl.UserSignIn;
 import by.tr.web.domain.TagAttributes;
 import by.tr.web.controller.commands.impl.UserSignUp;
@@ -12,8 +13,9 @@ public class CommandDirector {
 
     public CommandDirector() {
 
-        commandMap.put(TagAttributes.userSignIn.name(), new UserSignIn());
-        commandMap.put(TagAttributes.userSignUp.name(), new UserSignUp());
+        commandMap.put(TagAttributes.USER_SIGN_IN.name().toLowerCase(), new UserSignIn());
+        commandMap.put(TagAttributes.USER_SIGN_UP.name().toLowerCase(), new UserSignUp());
+        commandMap.put(TagAttributes.SEND_DRIVER_APPLICATION.name().toLowerCase(), new SendDriverApplication());
     }
 
     public Command getCommand(String commandName) {

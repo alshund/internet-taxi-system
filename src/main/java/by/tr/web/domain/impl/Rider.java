@@ -1,8 +1,11 @@
-package by.tr.web.domain;
+package by.tr.web.domain.impl;
+
+import by.tr.web.domain.AuthenticationData;
+import by.tr.web.domain.User;
 
 import java.io.Serializable;
 
-public class Rider implements Serializable {
+public class Rider implements Serializable, User {
     private static final long serialVersionUID = -1693796269287420231L;
 
     private AuthenticationData authenticationData;
@@ -38,6 +41,11 @@ public class Rider implements Serializable {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (phoneNumber != null ? phoneNumber.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String getRole() {
+        return authenticationData.getRole();
     }
 
     public AuthenticationData getAuthenticationData() {

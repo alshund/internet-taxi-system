@@ -39,4 +39,12 @@ public class RegistrationServiceImpl implements RegistrationService {
             throw new UserServiceException("Exception during user recording: " + authenticationData.getEmail(), e);
         }
     }
+
+    @Override
+    public void sendDriverApplication() {
+
+
+    }
+
+
 }

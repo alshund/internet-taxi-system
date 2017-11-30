@@ -127,12 +127,12 @@ public class SQLUserDAO implements UserDAO {
         try {
             resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ID));
             if (resultSet.next()) {
-                return resultSet.getString(TagAttributes.id.name());
+                return resultSet.getString(TagAttributes.ID.name().toLowerCase());
             } else {
-                throw new NoSuchUserException("This email doesn't registered");
+                throw new NoSuchUserException("This EMAIL doesn't registered");
             }
         } catch (SQLException e) {
-            throw new SQLUserDAOException("Unable to form matcher id");
+            throw new SQLUserDAOException("Unable to form matcher ID");
         }
     }
 
@@ -141,12 +141,12 @@ public class SQLUserDAO implements UserDAO {
         try {
             resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_ROLE));
             if (resultSet.next()) {
-                return resultSet.getString(TagAttributes.role.name());
+                return resultSet.getString(TagAttributes.ROLE.name().toLowerCase());
             } else {
-                throw new NoSuchUserException("This email doesn't registered");
+                throw new NoSuchUserException("This EMAIL doesn't registered");
             }
         } catch (SQLException e) {
-            throw new SQLUserDAOException("Unable to form matcher role");
+            throw new SQLUserDAOException("Unable to form matcher ROLE");
         }
     }
 
@@ -155,10 +155,10 @@ public class SQLUserDAO implements UserDAO {
         try {
             resultSet = getMatcherParameter(email, bundle.getString(DBBundleKeys.SELECT_MATCHER_HASH_DATA));
             if (resultSet.next()) {
-                return new HashData(resultSet.getString(TagAttributes.passwordHash.name()),
-                                    resultSet.getString(TagAttributes.salt.name()));
+                return new HashData(resultSet.getString(TagAttributes.PASSWORD_HASH.name().toLowerCase()),
+                                    resultSet.getString(TagAttributes.SALT.name().toLowerCase()));
             } else {
-                throw new NoSuchUserException("This email doesn't registered");
+                throw new NoSuchUserException("This EMAIL doesn't registered");
             }
         } catch (SQLException e) {
             throw new SQLUserDAOException("Unable to form matcher hash data");

@@ -28,6 +28,7 @@ public class UserSignIn implements Command {
         try {
             AuthenticationData authenticationData = formAuthenticationData(request);
             String role = authorizationService.signIn(authenticationData);
+
         } catch (AuthenticationException e) {
             e.printStackTrace();
         } catch (UserServiceException e) {
@@ -37,8 +38,8 @@ public class UserSignIn implements Command {
 
     private AuthenticationData formAuthenticationData(HttpServletRequest request) {
 
-        return new AuthenticationData(request.getParameter(TagAttributes.email.name()),
-                                      request.getParameter(TagAttributes.password.name()));
+        return new AuthenticationData(request.getParameter(TagAttributes.EMAIL.name().toLowerCase()),
+                                      request.getParameter(TagAttributes.PASSWORD.name().toLowerCase()));
     }
 
     private void successfulSignIn( ) {
