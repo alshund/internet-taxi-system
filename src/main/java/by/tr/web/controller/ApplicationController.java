@@ -2,6 +2,8 @@ package by.tr.web.controller;
 
 import by.tr.web.domain.DriverApplication;
 import by.tr.web.domain.TagAttributes;
+import by.tr.web.service.IdentificationService;
+import by.tr.web.service.ServiceFactory;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -18,13 +20,23 @@ import java.util.List;
 
 public class ApplicationController extends HttpServlet {
     private DiskFileItemFactory diskFileItemFactory;
+    private final int THRESHOLD_SIZE = 1024;
+    private final String TEMP_DIR_PATH = "javax.servlet.context.tempdir";
+
+    private IdentificationService identificationService;
+
+    public ApplicationController() {
+
+        ServiceFactory instance = ServiceFactory.getInstance();
+        identificationService = instance.getIdentificationService();
+    }
 
     @Override
     public void init() throws ServletException {
 
         diskFileItemFactory = new DiskFileItemFactory();
-        diskFileItemFactory.setSizeThreshold(1024 * 1024);
-        File tempDir = (File)getServletContext().getAttribute("javax.servlet.context.tempdir");
+        diskFileItemFactory.setSizeThreshold(THRESHOLD_SIZE);
+        File tempDir = (File)getServletContext().getAttribute(TEMP_DIR_PATH);
         diskFileItemFactory.setRepository(tempDir);
     }
 
@@ -35,13 +47,14 @@ public class ApplicationController extends HttpServlet {
             ServletFileUpload fileUpload = new ServletFileUpload(diskFileItemFactory);
             List requestItems = fileUpload.parseRequest(req);
             Iterator itemIterator = requestItems.iterator();
-            DriverApplication driverApplication = getData(itemIterator);
+            DriverApplication driverApplication = formDriverApplication(itemIterator);
+            identificationService.signUp(driverApplication);
         } catch (FileUploadException e) {
             e.printStackTrace();
         }
     }
 
-    private DriverApplication getData(Iterator itemIterator) throws IOException {
+    private DriverApplication formDriverApplication(Iterator itemIterator) throws IOException {
 
         DriverApplication driverApplication = new DriverApplication();
         while(itemIterator.hasNext()) {

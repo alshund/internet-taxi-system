@@ -1,15 +1,11 @@
 package by.tr.web.service;
 
-import by.tr.web.service.impl.AuthorizationServiceImpl;
-import by.tr.web.service.impl.HashServiceImpl;
-import by.tr.web.service.impl.RegistrationServiceImpl;
+import by.tr.web.service.impl.IdentificationServiceImpl;
 
 public class ServiceFactory {
     private static final ServiceFactory instance = new ServiceFactory();
 
-//    private final HashService hashService = new HashServiceImpl();
-    private final AuthorizationService authorizationService = new AuthorizationServiceImpl();
-    private final RegistrationService registrationService = new RegistrationServiceImpl();
+    private final IdentificationService identificationService = new IdentificationServiceImpl();
 
     private ServiceFactory() { }
 
@@ -17,15 +13,7 @@ public class ServiceFactory {
         return instance;
     }
 
-//    public HashService getHashService() {
-//        return hashService;
-//    }
-
-    public AuthorizationService getAuthorizationService() {
-        return authorizationService;
-    }
-
-    public RegistrationService getRegistrationService() {
-        return registrationService;
+    public IdentificationService getIdentificationService() {
+        return identificationService;
     }
 }

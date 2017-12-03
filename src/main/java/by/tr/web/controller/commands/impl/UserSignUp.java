@@ -4,7 +4,7 @@ import by.tr.web.controller.PagesBundleKeys;
 import by.tr.web.controller.commands.Command;
 import by.tr.web.domain.AuthenticationData;
 import by.tr.web.domain.TagAttributes;
-import by.tr.web.service.RegistrationService;
+import by.tr.web.service.IdentificationService;
 import by.tr.web.service.ServiceFactory;
 import by.tr.web.service.exception.AuthenticationException;
 import by.tr.web.service.exception.UserServiceException;
@@ -17,14 +17,14 @@ import java.io.IOException;
 import java.util.ResourceBundle;
 
 public class UserSignUp implements Command {
-    private RegistrationService registrationService;
+    private IdentificationService identificationService;
 
     private ResourceBundle bundle = ResourceBundle.getBundle(PagesBundleKeys.BUNDLE_NAME);
 
     public UserSignUp() {
 
         ServiceFactory instance = ServiceFactory.getInstance();
-        registrationService = instance.getRegistrationService();
+        identificationService = instance.getIdentificationService();
     }
 
     @Override
@@ -32,8 +32,8 @@ public class UserSignUp implements Command {
 
         try {
             AuthenticationData authenticationData = formAuthenticationData(request);
-            String role = registrationService.signUp(authenticationData);
-            successfulSignUp(role, request, response);
+            identificationService.signUp(authenticationData);
+
         } catch (AuthenticationException e) {
             e.printStackTrace();
         } catch (UserServiceException e) {
