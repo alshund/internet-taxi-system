@@ -3,7 +3,9 @@ package by.tr.web.domain;
 import java.io.InputStream;
 import java.io.Serializable;
 
-public class DriverApplication implements Serializable {
+public class DriverApplication implements Serializable {// что за бредовое название класса?
+    // и что вообще за каша из классов и методов в этом пакете?
+    
     private static final long serialVersionUID = -5130204406615635147L;
 
     private int id;
@@ -12,7 +14,7 @@ public class DriverApplication implements Serializable {
     private String patronymic;
     private String phoneNumber;
     private String email;
-    private InputStream driverLicense;
+    private InputStream driverLicense;// реально InputStream?
     private InputStream passport;
 
     @Override
