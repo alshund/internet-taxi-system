@@ -13,7 +13,7 @@ public interface UserDAO {
     void signUpApplication(DriverApplication driverApplication) throws SQLUserDAOException;
 
     boolean isSignUp(String email) throws SQLUserDAOException;
-    String getMatcherId(String email) throws SQLUserDAOException, NoSuchUserException;
+    String getMatcherId(String email) throws SQLUserDAOException, NoSuchUserException;// не уверена, что эти методы должны быть методами публичного интерфейса
     String getMatcherRole(String email) throws SQLUserDAOException, NoSuchUserException;
     HashData getMatcherHashData(String email) throws SQLUserDAOException, NoSuchUserException;
 }

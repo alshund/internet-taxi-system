@@ -25,7 +25,9 @@ public class ConnectionPool {
         try {
             initialize();
         } catch (ConnectionPoolException e) {
-            e.printStackTrace();
+            e.printStackTrace();// уже много раз говорила про обработку исключений
+            // вот что мне делать, если у тебя мозг на простейшие случаи в коде не включается.
+            // ну как здесь можно гасить исключение?
         }
     }
 
@@ -68,7 +70,8 @@ public class ConnectionPool {
             return connection;
         } catch (InterruptedException e) {
 
-            Thread.currentThread().interrupt();
+            Thread.currentThread().interrupt();// АААААААААААААА, ты что пил???????
+            // что это за бред?????
             throw new ConnectionPoolException("Thread is interrupted before or during the activity", e);
         } catch (SQLException e) {
 

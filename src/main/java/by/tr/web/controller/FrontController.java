@@ -30,6 +30,7 @@ public class FrontController extends HttpServlet {
     }
 
     @Override
+    // и чем же у тебя метод doPost от doGet отличается
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String commandName = req.getParameter(TagAttributes.COMMAND.name().toLowerCase());
