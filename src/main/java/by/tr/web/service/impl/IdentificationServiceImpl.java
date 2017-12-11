@@ -83,7 +83,7 @@ public class IdentificationServiceImpl implements IdentificationService {
             digest.update((password + salt).getBytes());
             return new BigInteger(digest.digest()).toString(radix);
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+            e.printStackTrace();// и опять погасили исключение, мля
         }
         return null;
     }
